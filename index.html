@@ -8,6 +8,7 @@
       font-family: Arial, sans-serif;
       background-color: #f9f9f9;
       padding: 20px;
+      overflow-x: auto;
     }
 
     h1 {
@@ -17,25 +18,27 @@
 
     .malla-horizontal {
       display: flex;
-      justify-content: center;
+      flex-direction: row;
       gap: 40px;
-      flex-wrap: wrap;
+      width: max-content;
     }
 
     .bloque {
       text-align: center;
+      min-width: 240px;
     }
 
     .ramo {
       background-color: #fff;
       border: 2px solid #ccc;
-      padding: 15px 25px;
+      padding: 10px 15px;
       border-radius: 10px;
-      min-width: 180px;
+      width: 100%;
       cursor: pointer;
       transition: all 0.3s ease;
       position: relative;
       margin-top: 10px;
+      font-size: 14px;
     }
 
     .ramo:hover {
@@ -57,7 +60,7 @@
 
     .estado {
       display: block;
-      font-size: 20px;
+      font-size: 16px;
       margin-top: 5px;
     }
 
