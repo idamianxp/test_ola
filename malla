@@ -1,1 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Malla Curricular Interactiva</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 20px;
+    }
 
+    h1 {
+      text-align: center;
+      color: #444;
+    }
+
+    .malla {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 15px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .ramo {
+      padding: 15px;
+      background-color: #ffffff;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      user-select: none;
+    }
+
+    .ramo:hover {
+      background-color: #e0e0e0;
+    }
+
+    .ramo.aprobado {
+      background-color: #b5e7b5;
+      border-color: #4caf50;
+      text-decoration: line-through;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Malla Curricular Interactiva</h1>
+
+<div class="malla">
+  <div class="ramo">Química General I</div>
+  <div class="ramo">Matemática I</div>
+  <div class="ramo">Biología Celular</div>
+  <div class="ramo">Comunicación Científica</div>
+  <div class="ramo">Introducción a la QF</div>
+
+  <div class="ramo">Química General II</div>
+  <div class="ramo">Matemática II</div>
+  <div class="ramo">Bioquímica</div>
+  <div class="ramo">Física</div>
+  <div class="ramo">Ética Profesional</div>
+
+  <!-- Agrega más ramos aquí según tu malla -->
+</div>
+
+<script>
+  const ramos = document.querySelectorAll('.ramo');
+
+  ramos.forEach(ramo => {
+    ramo.addEventListener('click', () => {
+      ramo.classList.toggle('aprobado');
+    });
+  });
+</script>
+
+</body>
+</html>
