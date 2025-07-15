@@ -96,7 +96,8 @@
     const quimica1 = document.getElementById("quimica1");
     const quimica2 = document.getElementById("quimica2");
     const quimica3 = document.getElementById("quimica3");
-
+// Funciones de los ramos 
+    
     function aprobar(ramo) {
       ramo.classList.add("aprobado");
       ramo.classList.remove("bloqueado");
@@ -113,29 +114,28 @@
       ramo.classList.remove("bloqueado", "aprobado");
       ramo.querySelector(".estado").textContent = "✅";
     }
+// Desde aca empiezan los ramos
 
+    
     quimica1.addEventListener("click", () => {
-      if (quimica1.classList.contains("aprobado")) {
-        bloquear(quimica1);
-        bloquear(quimica2);
-        bloquear(quimica3);
+      if (quimica3.classList.contains("bloqueado")) return;
+
+      if (quimica3.classList.contains("aprobado")) {
+        quimica3.classList.remove("aprobado");
+        quimica3.querySelector(".estado").textContent = "✅";
       } else {
-        aprobar(quimica1);
-        prepararParaAprobar(quimica2);
+        aprobar(quimica2);
       }
     });
 
     quimica2.addEventListener("click", () => {
-      if (quimica2.classList.contains("bloqueado")) return;
+      if (quimica3.classList.contains("bloqueado")) return;
 
-      if (quimica2.classList.contains("aprobado")) {
-        bloquear(quimica2);
-        if (quimica1.classList.contains("aprobado")) {
-          bloquear(quimica3);
-        }
+      if (quimica3.classList.contains("aprobado")) {
+        quimica3.classList.remove("aprobado");
+        quimica3.querySelector(".estado").textContent = "✅";
       } else {
-        aprobar(quimica2);
-        prepararParaAprobar(quimica3);
+        aprobar(quimica3);
       }
     });
 
