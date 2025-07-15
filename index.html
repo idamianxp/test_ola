@@ -10,24 +10,20 @@
       padding: 20px;
     }
 
-    h1, h2 {
+    h1 {
       text-align: center;
+      margin-bottom: 40px;
     }
 
-    .semestre {
-      margin: 30px auto;
-      max-width: 100%;
-    }
-
-    .semestre h2 {
-      margin-bottom: 10px;
-    }
-
-    .linea-ramos {
+    .malla-horizontal {
       display: flex;
-      gap: 20px;
       justify-content: center;
+      gap: 40px;
       flex-wrap: wrap;
+    }
+
+    .bloque {
+      text-align: center;
     }
 
     .ramo {
@@ -35,11 +31,11 @@
       border: 2px solid #ccc;
       padding: 15px 25px;
       border-radius: 10px;
-      text-align: center;
       min-width: 150px;
       cursor: pointer;
       transition: all 0.3s ease;
       position: relative;
+      margin-top: 10px;
     }
 
     .ramo:hover {
@@ -70,29 +66,25 @@
 
   <h1>Malla Curricular Interactiva</h1>
 
-  <div class="semestre">
-    <h2>Semestre 1</h2>
-    <div class="linea-ramos">
+  <div class="malla-horizontal">
+    <div class="bloque">
+      <h2>Semestre 1</h2>
       <div class="ramo" id="quimica1">
         Química 1
         <span class="estado">✅</span>
       </div>
     </div>
-  </div>
 
-  <div class="semestre">
-    <h2>Semestre 2</h2>
-    <div class="linea-ramos">
+    <div class="bloque">
+      <h2>Semestre 2</h2>
       <div class="ramo bloqueado" id="quimica2">
         Química 2
         <span class="estado">❌</span>
       </div>
     </div>
-  </div>
 
-  <div class="semestre">
-    <h2>Semestre 3</h2>
-    <div class="linea-ramos">
+    <div class="bloque">
+      <h2>Semestre 3</h2>
       <div class="ramo bloqueado" id="quimica3">
         Química 3
         <span class="estado">❌</span>
@@ -111,27 +103,43 @@
       ramo.querySelector(".estado").textContent = "✅";
     }
 
-    function desbloquear(ramo) {
-      ramo.classList.remove("bloqueado");
-      ramo.querySelector(".estado").textContent = "✅";
+    function bloquear(ramo) {
+      ramo.classList.remove("aprobado");
+      ramo.classList.add("bloqueado");
+      ramo.querySelector(".estado").textContent = "❌";
     }
 
     quimica1.addEventListener("click", () => {
-      if (!quimica1.classList.contains("aprobado")) {
+      if (quimica1.classList.contains("aprobado")) {
+        bloquear(quimica1);
+        bloquear(quimica2);
+        bloquear(quimica3);
+      } else {
         aprobar(quimica1);
-        desbloquear(quimica2);
+        quimica2.classList.remove("bloqueado");
+        quimica2.querySelector(".estado").textContent = "✅";
       }
     });
 
     quimica2.addEventListener("click", () => {
-      if (!quimica2.classList.contains("bloqueado") && !quimica2.classList.contains("aprobado")) {
+      if (quimica2.classList.contains("bloqueado")) return;
+
+      if (quimica2.classList.contains("aprobado")) {
+        bloquear(quimica2);
+        bloquear(quimica3);
+      } else {
         aprobar(quimica2);
-        desbloquear(quimica3);
+        quimica3.classList.remove("bloqueado");
+        quimica3.querySelector(".estado").textContent = "✅";
       }
     });
 
     quimica3.addEventListener("click", () => {
-      if (!quimica3.classList.contains("bloqueado") && !quimica3.classList.contains("aprobado")) {
+      if (quimica3.classList.contains("bloqueado")) return;
+
+      if (quimica3.classList.contains("aprobado")) {
+        bloquear(quimica3);
+      } else {
         aprobar(quimica3);
       }
     });
@@ -139,5 +147,6 @@
 
 </body>
 </html>
+
 
 
