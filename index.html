@@ -118,22 +118,22 @@
 
     
     quimica1.addEventListener("click", () => {
-      if (quimica3.classList.contains("bloqueado")) return;
+      if (quimica1.classList.contains("bloqueado")) return;
 
-      if (quimica3.classList.contains("aprobado")) {
-        quimica3.classList.remove("aprobado");
-        quimica3.querySelector(".estado").textContent = "✅";
+      if (quimica1.classList.contains("aprobado")) {
+        quimica1.classList.remove("aprobado");
+        quimica1.querySelector(".estado").textContent = "✅";
       } else {
         aprobar(quimica2);
       }
     });
 
     quimica2.addEventListener("click", () => {
-      if (quimica3.classList.contains("bloqueado")) return;
+      if (quimica2.classList.contains("bloqueado")) return;
 
-      if (quimica3.classList.contains("aprobado")) {
-        quimica3.classList.remove("aprobado");
-        quimica3.querySelector(".estado").textContent = "✅";
+      if (quimica2.classList.contains("aprobado")) {
+        quimica2.classList.remove("aprobado");
+        quimica2.querySelector(".estado").textContent = "✅";
       } else {
         aprobar(quimica3);
       }
