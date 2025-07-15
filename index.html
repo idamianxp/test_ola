@@ -31,7 +31,7 @@
       border: 2px solid #ccc;
       padding: 15px 25px;
       border-radius: 10px;
-      min-width: 150px;
+      min-width: 180px;
       cursor: pointer;
       transition: all 0.3s ease;
       position: relative;
@@ -60,100 +60,180 @@
       font-size: 20px;
       margin-top: 5px;
     }
+
+    #reset {
+      display: block;
+      margin: 30px auto;
+      padding: 10px 20px;
+      background-color: #d9534f;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    #reset:hover {
+      background-color: #c9302c;
+    }
   </style>
 </head>
 <body>
 
   <h1>Malla Curricular Interactiva</h1>
-
-  <div class="malla-horizontal">
-    <div class="bloque">
-      <h2>Semestre 1</h2>
-      <div class="ramo" id="quimica1">
-        Química 1
-        <span class="estado">✅</span>
-      </div>
-    </div>
-
-    <div class="bloque">
-      <h2>Semestre 2</h2>
-      <div class="ramo bloqueado" id="quimica2">
-        Química 2
-        <span class="estado">❌</span>
-      </div>
-    </div>
-
-    <div class="bloque">
-      <h2>Semestre 3</h2>
-      <div class="ramo bloqueado" id="quimica3">
-        Química 3
-        <span class="estado">❌</span>
-      </div>
-    </div>
-  </div>
+  <button id="reset">Reiniciar Malla</button>
+  <div class="malla-horizontal" id="contenedor-malla"></div>
 
   <script>
-    const quimica1 = document.getElementById("quimica1");
-    const quimica2 = document.getElementById("quimica2");
-    const quimica3 = document.getElementById("quimica3");
-// Funciones de los ramos 
-    
-    function aprobar(ramo) {
-      ramo.classList.add("aprobado");
-      ramo.classList.remove("bloqueado");
-      ramo.querySelector(".estado").textContent = "✅";
-    }
+    const ramos = [
+      // SEMESTRE 1
+      { nombre: "Química 1", id: "q1", semestre: 1 },
+      { nombre: "Biología Celular", id: "bio1", semestre: 1 },
+      { nombre: "Matemáticas", id: "mat1", semestre: 1 },
+      { nombre: "Introducción a las Ciencias Farmacéuticas", id: "intro", semestre: 1 },
+      { nombre: "Integrado de Habilidades", id: "hab", semestre: 1 },
+      { nombre: "Antropología", id: "antro", semestre: 1 },
 
-    function bloquear(ramo) {
-      ramo.classList.remove("aprobado");
-      ramo.classList.add("bloqueado");
-      ramo.querySelector(".estado").textContent = "❌";
-    }
+      // SEMESTRE 2
+      { nombre: "Química 2", id: "q2", semestre: 2, requisitos: ["q1"] },
+      { nombre: "Cálculo Diferencial", id: "calc", semestre: 2, requisitos: ["mat1"] },
+      { nombre: "Física", id: "fis", semestre: 2, requisitos: ["mat1"] },
+      { nombre: "Bioestadística", id: "bioest", semestre: 2, requisitos: ["mat1"] },
+      { nombre: "Fundamentos del Quehacer Farmacéutico", id: "fund", semestre: 2, requisitos: ["intro"] },
+      { nombre: "Ética", id: "etica", semestre: 2, requisitos: ["antro"] },
 
-    function prepararParaAprobar(ramo) {
-      ramo.classList.remove("bloqueado", "aprobado");
-      ramo.querySelector(".estado").textContent = "✅";
-    }
-// Desde aca empiezan los ramos
+      // SEMESTRE 3
+      { nombre: "Química Analítica", id: "q3", semestre: 3, requisitos: ["q2"] },
+      { nombre: "Química Orgánica", id: "org", semestre: 3, requisitos: ["q1"] },
+      { nombre: "Fisicoquímica", id: "fisicoq", semestre: 3, requisitos: ["q2"] },
+      { nombre: "Fisiología Integrada", id: "fisio", semestre: 3, requisitos: ["bio1"] },
+      { nombre: "Salud Poblacional", id: "salud", semestre: 3 },
+      { nombre: "Gestión Emocional", id: "emocion", semestre: 3 },
 
-    
-    quimica1.addEventListener("click", () => {
-      if (quimica1.classList.contains("bloqueado")) return;
+      // SEMESTRE 4
+      { nombre: "Análisis Instrumental", id: "analisis", semestre: 4, requisitos: ["q3"] },
+      { nombre: "Química Orgánica Avanzada", id: "orgav", semestre: 4, requisitos: ["org"] },
+      { nombre: "Bioquímica", id: "bioq", semestre: 4, requisitos: ["org"] },
+      { nombre: "Fisiopatología", id: "fisio2", semestre: 4, requisitos: ["fisio"] },
+      { nombre: "Epidemiología", id: "epi", semestre: 4, requisitos: ["salud"] },
+      { nombre: "Hito Evaluativo Integrativo I", id: "hito1", semestre: 4, requisitos: ["q2", "calc", "fis", "bioest", "fund", "etica", "q3", "org", "fisicoq", "fisio", "salud", "emocion"] },
 
-      if (quimica1.classList.contains("aprobado")) {
-        quimica1.classList.remove("aprobado");
-        quimica1.querySelector(".estado").textContent = "✅";
-      } else {
-        aprobar(quimica2);
-      }
+      // SEMESTRE 5
+      { nombre: "Farmacología", id: "farma1", semestre: 5, requisitos: ["fisio2"] },
+      { nombre: "Salud Digital", id: "saludig", semestre: 5 },
+      { nombre: "Microbiología", id: "micro", semestre: 5, requisitos: ["bioq"] },
+      { nombre: "Tecnología Farmacéutica I", id: "tecf1", semestre: 5, requisitos: ["fisicoq"] },
+      { nombre: "Química Farmacéutica I", id: "qfarma1", semestre: 5, requisitos: ["orgav"] },
+      { nombre: "Persona y Sociedad", id: "persoc", semestre: 5, requisitos: ["etica"] },
+
+      // SEMESTRE 6
+      { nombre: "Farmacología II", id: "farma2", semestre: 6, requisitos: ["farma1"] },
+      { nombre: "Bioética", id: "bioetica", semestre: 6 },
+      { nombre: "Tecnología Farmacéutica II", id: "tecf2", semestre: 6, requisitos: ["tecf1"] },
+      { nombre: "Química Farmacéutica II", id: "qfarma2", semestre: 6, requisitos: ["qfarma1"] },
+      { nombre: "Práctica I: Rol del Químico Farmacéutico", id: "pract1", semestre: 6, requisitos: ["farma2"] },
+      { nombre: "Electivo I: Formación e Identidad", id: "elec1", semestre: 6 },
+
+      // SEMESTRE 7
+      { nombre: "Metodología de la Investigación", id: "invest", semestre: 7 },
+      { nombre: "Farmacia Clínica y Atención Farmacéutica I", id: "fcaf1", semestre: 7, requisitos: ["farma2"] },
+      { nombre: "Farmacognosia y Fitoterapia", id: "fitoterapia", semestre: 7, requisitos: ["qfarma2"] },
+      { nombre: "Control y Aseguramiento de la Calidad Farmacéutica", id: "control", semestre: 7 },
+      { nombre: "Legislación Farmacéutica", id: "legis", semestre: 7, requisitos: ["tecf1"] },
+      { nombre: "Electivo II: Formación e Identidad", id: "elec2", semestre: 7 },
+
+      // SEMESTRE 8
+      { nombre: "Farmacia Clínica y Atención Farmacéutica II", id: "fcaf2", semestre: 8, requisitos: ["fcaf1"] },
+      { nombre: "Biofarmacia", id: "biofarma", semestre: 8, requisitos: ["control"] },
+      { nombre: "Toxicología", id: "toxico", semestre: 8, requisitos: ["farma2"] },
+      { nombre: "Farmacia Asistencial", id: "asis", semestre: 8 },
+      { nombre: "Práctica II: Farmacia Comunitaria", id: "pract2", semestre: 8, requisitos: ["legis"] },
+      { nombre: "Hito Evaluativo Integrativo Interprofesional", id: "hito2", semestre: 8, requisitos: ["farma2", "bioetica", "tecf2", "qfarma2", "pract1", "elec1", "invest", "fcaf1", "fitoterapia", "control", "legis", "elec2"] },
+
+      // SEMESTRE 9
+      { nombre: "Gestión y Marketing Farmacéutico", id: "marketing", semestre: 9 },
+      { nombre: "Farmacovigilancia y Tecnovigilancia", id: "vigilancia", semestre: 9 },
+      { nombre: "Electivo I", id: "elec3", semestre: 9, requisitos: ["hito2"] },
+      { nombre: "Electivo II", id: "elec4", semestre: 9, requisitos: ["hito2"] },
+      { nombre: "Electivo III", id: "elec5", semestre: 9, requisitos: ["hito2"] },
+      { nombre: "Electivo III: Formación e Identidad", id: "elecf3", semestre: 9 },
+
+      // SEMESTRE 10
+      { nombre: "Internado", id: "internado", semestre: 10, requisitos: ["elec3", "elec4", "elec5"] }
+    ];
+
+    const estadoRamos = JSON.parse(localStorage.getItem("estadoRamos")) || {};
+    const contenedor = document.getElementById("contenedor-malla");
+
+    const semestres = [...new Set(ramos.map(r => r.semestre))];
+
+    semestres.forEach(sem => {
+      const bloque = document.createElement("div");
+      bloque.className = "bloque";
+
+      const titulo = document.createElement("h2");
+      titulo.textContent = `Semestre ${sem}`;
+      bloque.appendChild(titulo);
+
+      ramos.filter(r => r.semestre === sem).forEach(ramo => {
+        const div = document.createElement("div");
+        div.className = "ramo";
+        div.id = ramo.id;
+        div.innerHTML = `${ramo.nombre}<span class="estado"></span>`;
+        bloque.appendChild(div);
+        if (!(ramo.id in estadoRamos)) estadoRamos[ramo.id] = false;
+      });
+
+      contenedor.appendChild(bloque);
     });
 
-    quimica2.addEventListener("click", () => {
-      if (quimica2.classList.contains("bloqueado")) return;
+    function actualizarEstado() {
+      ramos.forEach(ramo => {
+        const div = document.getElementById(ramo.id);
+        const aprobado = estadoRamos[ramo.id];
+        const requisitos = ramo.requisitos || [];
 
-      if (quimica2.classList.contains("aprobado")) {
-        quimica2.classList.remove("aprobado");
-        quimica2.querySelector(".estado").textContent = "✅";
-      } else {
-        aprobar(quimica3);
-      }
+        const requisitosAprobados = requisitos.every(req => estadoRamos[req]);
+
+        if (!requisitosAprobados && !aprobado) {
+          div.classList.add("bloqueado");
+          div.classList.remove("aprobado");
+          div.querySelector(".estado").textContent = "❌";
+        } else if (aprobado) {
+          div.classList.remove("bloqueado");
+          div.classList.add("aprobado");
+          div.querySelector(".estado").textContent = "✅";
+        } else {
+          div.classList.remove("bloqueado", "aprobado");
+          div.querySelector(".estado").textContent = "✅";
+        }
+      });
+
+      localStorage.setItem("estadoRamos", JSON.stringify(estadoRamos));
+    }
+
+    function agregarEventos() {
+      ramos.forEach(ramo => {
+        const div = document.getElementById(ramo.id);
+        div.addEventListener("click", () => {
+          if (div.classList.contains("bloqueado")) return;
+          estadoRamos[ramo.id] = !estadoRamos[ramo.id];
+          actualizarEstado();
+        });
+      });
+    }
+
+    document.getElementById("reset").addEventListener("click", () => {
+      localStorage.removeItem("estadoRamos");
+      location.reload();
     });
 
-    quimica3.addEventListener("click", () => {
-      if (quimica3.classList.contains("bloqueado")) return;
-
-      if (quimica3.classList.contains("aprobado")) {
-        quimica3.classList.remove("aprobado");
-        quimica3.querySelector(".estado").textContent = "✅";
-      } else {
-        aprobar(quimica3);
-      }
-    });
+    actualizarEstado();
+    agregarEventos();
   </script>
 
 </body>
-</html>
-
+</html
 
 
 
