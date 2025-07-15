@@ -16,16 +16,27 @@
 
     .semestre {
       margin: 30px auto;
-      max-width: 600px;
+      max-width: 100%;
+    }
+
+    .semestre h2 {
+      margin-bottom: 10px;
+    }
+
+    .linea-ramos {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
     }
 
     .ramo {
       background-color: #fff;
       border: 2px solid #ccc;
-      padding: 15px;
+      padding: 15px 25px;
       border-radius: 10px;
       text-align: center;
-      margin-bottom: 10px;
+      min-width: 150px;
       cursor: pointer;
       transition: all 0.3s ease;
       position: relative;
@@ -48,11 +59,10 @@
       cursor: not-allowed;
     }
 
-    .ramo .estado {
-      position: absolute;
-      right: 15px;
-      top: 10px;
+    .estado {
+      display: block;
       font-size: 20px;
+      margin-top: 5px;
     }
   </style>
 </head>
@@ -62,22 +72,31 @@
 
   <div class="semestre">
     <h2>Semestre 1</h2>
-    <div class="ramo" id="quimica1">
-      Química 1 <span class="estado">✅</span>
+    <div class="linea-ramos">
+      <div class="ramo" id="quimica1">
+        Química 1
+        <span class="estado">✅</span>
+      </div>
     </div>
   </div>
 
   <div class="semestre">
     <h2>Semestre 2</h2>
-    <div class="ramo bloqueado" id="quimica2">
-      Química 2 <span class="estado">❌</span>
+    <div class="linea-ramos">
+      <div class="ramo bloqueado" id="quimica2">
+        Química 2
+        <span class="estado">❌</span>
+      </div>
     </div>
   </div>
 
   <div class="semestre">
     <h2>Semestre 3</h2>
-    <div class="ramo bloqueado" id="quimica3">
-      Química 3 <span class="estado">❌</span>
+    <div class="linea-ramos">
+      <div class="ramo bloqueado" id="quimica3">
+        Química 3
+        <span class="estado">❌</span>
+      </div>
     </div>
   </div>
 
@@ -94,6 +113,7 @@
 
     function desbloquear(ramo) {
       ramo.classList.remove("bloqueado");
+      ramo.querySelector(".estado").textContent = "✅";
     }
 
     quimica1.addEventListener("click", () => {
@@ -119,4 +139,5 @@
 
 </body>
 </html>
+
 
