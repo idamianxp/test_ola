@@ -1,42 +1,38 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
   <title>Malla Curricular Interactiva</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f4f4f4;
+      background-color: #f9f9f9;
       padding: 20px;
     }
 
-    h1 {
+    h1, h2 {
       text-align: center;
-      color: #444;
     }
 
-    .malla {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 15px;
-      max-width: 1000px;
-      margin: auto;
+    .semestre {
+      margin: 30px auto;
+      max-width: 600px;
     }
 
     .ramo {
-      padding: 15px;
-      background-color: #ffffff;
+      background-color: #fff;
       border: 2px solid #ccc;
+      padding: 15px;
       border-radius: 10px;
       text-align: center;
+      margin-bottom: 10px;
       cursor: pointer;
       transition: all 0.3s ease;
-      user-select: none;
+      position: relative;
     }
 
     .ramo:hover {
-      background-color: #e0e0e0;
+      background-color: #eee;
     }
 
     .ramo.aprobado {
@@ -44,37 +40,83 @@
       border-color: #4caf50;
       text-decoration: line-through;
     }
+
+    .ramo.bloqueado {
+      background-color: #f0f0f0;
+      color: #aaa;
+      border-color: #aaa;
+      cursor: not-allowed;
+    }
+
+    .ramo .estado {
+      position: absolute;
+      right: 15px;
+      top: 10px;
+      font-size: 20px;
+    }
   </style>
 </head>
 <body>
 
-<h1>Malla Curricular Interactiva</h1>
+  <h1>Malla Curricular Interactiva</h1>
 
-<div class="malla">
-  <div class="ramo">Química General I</div>
-  <div class="ramo">Matemática I</div>
-  <div class="ramo">Biología Celular</div>
-  <div class="ramo">Comunicación Científica</div>
-  <div class="ramo">Introducción a la QF</div>
+  <div class="semestre">
+    <h2>Semestre 1</h2>
+    <div class="ramo" id="quimica1">
+      Química 1 <span class="estado">✅</span>
+    </div>
+  </div>
 
-  <div class="ramo">Química General II</div>
-  <div class="ramo">Matemática II</div>
-  <div class="ramo">Bioquímica</div>
-  <div class="ramo">Física</div>
-  <div class="ramo">Ética Profesional</div>
+  <div class="semestre">
+    <h2>Semestre 2</h2>
+    <div class="ramo bloqueado" id="quimica2">
+      Química 2 <span class="estado">❌</span>
+    </div>
+  </div>
 
-  <!-- Agrega más ramos aquí según tu malla -->
-</div>
+  <div class="semestre">
+    <h2>Semestre 3</h2>
+    <div class="ramo bloqueado" id="quimica3">
+      Química 3 <span class="estado">❌</span>
+    </div>
+  </div>
 
-<script>
-  const ramos = document.querySelectorAll('.ramo');
+  <script>
+    const quimica1 = document.getElementById("quimica1");
+    const quimica2 = document.getElementById("quimica2");
+    const quimica3 = document.getElementById("quimica3");
 
-  ramos.forEach(ramo => {
-    ramo.addEventListener('click', () => {
-      ramo.classList.toggle('aprobado');
+    function aprobar(ramo) {
+      ramo.classList.add("aprobado");
+      ramo.classList.remove("bloqueado");
+      ramo.querySelector(".estado").textContent = "✅";
+    }
+
+    function desbloquear(ramo) {
+      ramo.classList.remove("bloqueado");
+    }
+
+    quimica1.addEventListener("click", () => {
+      if (!quimica1.classList.contains("aprobado")) {
+        aprobar(quimica1);
+        desbloquear(quimica2);
+      }
     });
-  });
-</script>
+
+    quimica2.addEventListener("click", () => {
+      if (!quimica2.classList.contains("bloqueado") && !quimica2.classList.contains("aprobado")) {
+        aprobar(quimica2);
+        desbloquear(quimica3);
+      }
+    });
+
+    quimica3.addEventListener("click", () => {
+      if (!quimica3.classList.contains("bloqueado") && !quimica3.classList.contains("aprobado")) {
+        aprobar(quimica3);
+      }
+    });
+  </script>
 
 </body>
 </html>
+
